@@ -8,8 +8,8 @@ import { useAuth } from "@/components/auth-provider";
 export function AuthModal() {
   const { authOpen, authMode, closeAuth, openAuth, refreshUser } = useAuth();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("demo@student.com");
-  const [password, setPassword] = useState("Password@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -155,11 +155,6 @@ export function AuthModal() {
           >
             {submitting ? "Please wait..." : isSignup ? "Create account" : "Log in"}
           </button>
-
-          <p className="text-xs leading-5 text-muted">
-            Demo login is prefilled after seeding: demo@student.com /
-            Password@123.
-          </p>
         </form>
       </div>
     </div>

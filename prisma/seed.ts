@@ -889,7 +889,7 @@ function buildDirectoryCollege(
         rating: Math.min(5, Math.round(rating)),
         title: "Useful directory profile",
         body:
-          "This profile is part of the expanded seeded dataset used to test search, comparison, predictor, saved colleges, and discussion flows."
+          "This profile is part of the expanded seeded dataset used to test search, comparison, predictor, reviews, and saved colleges."
       }
     ]
   };
@@ -902,8 +902,6 @@ const generatedColleges = directoryInstitutes
 const allColleges = [...colleges, ...generatedColleges];
 
 async function main() {
-  await prisma.discussionAnswer.deleteMany();
-  await prisma.discussionQuestion.deleteMany();
   await prisma.savedCollege.deleteMany();
   await prisma.review.deleteMany();
   await prisma.course.deleteMany();
@@ -944,36 +942,6 @@ async function main() {
       userId: demoUser.id,
       collegeId: college.id
     }))
-  });
-
-  const firstQuestion = await prisma.discussionQuestion.create({
-    data: {
-      title: "Should I choose NIT Trichy ECE or VIT CSE?",
-      body:
-        "My JEE Main rank is around 4200 and I also have a strong VITEEE score. I want software placements but I am also considering college brand value.",
-      tags: ["engineering", "placements", "comparison"],
-      collegeId: createdColleges.find((college) => college.slug === "nit-trichy")?.id,
-      userId: demoUser.id
-    }
-  });
-
-  await prisma.discussionAnswer.create({
-    data: {
-      body:
-        "If you are comfortable studying electronics and building software skills separately, NIT Trichy ECE has stronger brand value and peer group. If you want a direct CS curriculum, VIT CSE is safer.",
-      questionId: firstQuestion.id,
-      userId: demoUser.id
-    }
-  });
-
-  await prisma.discussionQuestion.create({
-    data: {
-      title: "How important is average package while shortlisting colleges?",
-      body:
-        "I see many colleges advertise highest package, but the average and placement percentage seem more useful. How should I compare them?",
-      tags: ["placements", "shortlisting"],
-      userId: demoUser.id
-    }
   });
 
   console.log(

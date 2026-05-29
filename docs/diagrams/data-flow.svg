@@ -33,7 +33,7 @@
     <text class="boxTitle" x="24" y="40">React UI</text>
     <text class="boxText" x="24" y="100">User searches,</text>
     <text class="boxText" x="24" y="130">saves, logs in,</text>
-    <text class="boxText" x="24" y="160">posts Q&amp;A</text>
+    <text class="boxText" x="24" y="160">posts reviews</text>
   </g>
 
   <g transform="translate(430,205)">

@@ -1,149 +1,129 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120">
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1050" viewBox="0 0 1700 1050">
   <defs>
     <style>
       .bg { fill: #f8fafc; }
       .title { font: 800 42px Arial, Helvetica, sans-serif; fill: #1c2430; }
       .subtitle { font: 500 20px Arial, Helvetica, sans-serif; fill: #687385; }
-      .entity { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 16; }
-      .entityHead { fill: #0f6070; }
-      .entityTitle { font: 800 22px Arial, Helvetica, sans-serif; fill: #ffffff; }
+      .table { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 14; }
+      .head { fill: #0f6070; }
+      .head2 { fill: #166534; }
+      .head3 { fill: #c2410c; }
+      .tableTitle { font: 800 23px Arial, Helvetica, sans-serif; fill: #ffffff; }
       .field { font: 500 18px Arial, Helvetica, sans-serif; fill: #1c2430; }
-      .pk { font: 800 18px Arial, Helvetica, sans-serif; fill: #166534; }
-      .fk { font: 800 18px Arial, Helvetica, sans-serif; fill: #c2410c; }
-      .rel { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
-      .relLabel { font: 700 16px Arial, Helvetica, sans-serif; fill: #334155; }
+      .fieldMuted { font: 500 16px Arial, Helvetica, sans-serif; fill: #687385; }
+      .line { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .line2 { stroke: #0f6070; stroke-width: 3; fill: none; marker-end: url(#arrowBlue); }
+      .labelBox { fill: #ffffff; stroke: #d9e0ea; stroke-width: 1.5; rx: 8; }
+      .label { font: 800 15px Arial, Helvetica, sans-serif; fill: #334155; }
       .note { fill: #ecfeff; stroke: #67e8f9; stroke-width: 2; rx: 14; }
-      .noteText { font: 600 18px Arial, Helvetica, sans-serif; fill: #164e63; }
+      .noteText { font: 700 18px Arial, Helvetica, sans-serif; fill: #164e63; }
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
     </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6070"/>
+    </marker>
   </defs>
 
-  <rect class="bg" width="1600" height="1120"/>
+  <rect class="bg" width="1700" height="1050"/>
   <text class="title" x="70" y="70">College Discovery Database Schema</text>
-  <text class="subtitle" x="70" y="105">PostgreSQL tables and relationships used by Prisma</text>
+  <text class="subtitle" x="70" y="106">Six database models used by the product: auth, college search, compare, predictor, reviews, and saved colleges.</text>
 
-  <g transform="translate(70,160)">
-    <rect class="entity" width="310" height="245"/>
-    <rect class="entityHead" width="310" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">User</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="field" x="22" y="124">name</text>
-    <text class="field" x="22" y="156">email UNIQUE</text>
-    <text class="field" x="22" y="188">passwordHash</text>
-    <text class="field" x="22" y="220">createdAt, updatedAt</text>
+  <g transform="translate(80,175)">
+    <rect class="table" width="360" height="250"/>
+    <rect class="head" width="360" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">User</text>
+    <text class="field" x="24" y="92">id</text>
+    <text class="field" x="24" y="124">name</text>
+    <text class="field" x="24" y="156">email</text>
+    <text class="field" x="24" y="188">passwordHash</text>
+    <text class="fieldMuted" x="24" y="220">createdAt, updatedAt</text>
   </g>
 
-  <g transform="translate(500,150)">
-    <rect class="entity" width="310" height="190"/>
-    <rect class="entityHead" width="310" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">Session</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="field" x="22" y="124">tokenHash UNIQUE</text>
-    <text class="fk" x="22" y="156">userId FK</text>
-    <text class="field" x="22" y="188">expiresAt</text>
+  <g transform="translate(80,545)">
+    <rect class="table" width="360" height="215"/>
+    <rect class="head" width="360" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">Session</text>
+    <text class="field" x="24" y="92">id</text>
+    <text class="field" x="24" y="124">tokenHash</text>
+    <text class="field" x="24" y="156">userId</text>
+    <text class="fieldMuted" x="24" y="188">expiresAt, createdAt</text>
   </g>
 
-  <g transform="translate(1040,120)">
-    <rect class="entity" width="390" height="380"/>
-    <rect class="entityHead" width="390" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">College</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="field" x="22" y="124">slug UNIQUE, name</text>
-    <text class="field" x="22" y="156">city, state, type</text>
-    <text class="field" x="22" y="188">feeMin, feeMax</text>
-    <text class="field" x="22" y="220">rating, reviewCount</text>
-    <text class="field" x="22" y="252">placementRate</text>
-    <text class="field" x="22" y="284">averagePackage</text>
-    <text class="field" x="22" y="316">examsAccepted[]</text>
-    <text class="field" x="22" y="348">tags[], imageUrl</text>
+  <g transform="translate(670,135)">
+    <rect class="table" width="410" height="345"/>
+    <rect class="head2" width="410" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">College</text>
+    <text class="field" x="24" y="92">id, slug, name</text>
+    <text class="field" x="24" y="124">city, state, type</text>
+    <text class="field" x="24" y="156">feeMin, feeMax</text>
+    <text class="field" x="24" y="188">rating, reviewCount</text>
+    <text class="field" x="24" y="220">placementRate</text>
+    <text class="field" x="24" y="252">averagePackage, highestPackage</text>
+    <text class="field" x="24" y="284">examsAccepted, tags</text>
+    <text class="fieldMuted" x="24" y="316">imageUrl, overview, recruiters</text>
   </g>
 
-  <g transform="translate(1040,570)">
-    <rect class="entity" width="390" height="260"/>
-    <rect class="entityHead" width="390" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">Course</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="fk" x="22" y="124">collegeId FK</text>
-    <text class="field" x="22" y="156">name, degree, duration</text>
-    <text class="field" x="22" y="188">annualFee, seats</text>
-    <text class="field" x="22" y="220">exam</text>
-    <text class="field" x="22" y="252">closingRank</text>
+  <g transform="translate(1245,175)">
+    <rect class="table" width="360" height="250"/>
+    <rect class="head2" width="360" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">Course</text>
+    <text class="field" x="24" y="92">id</text>
+    <text class="field" x="24" y="124">collegeId</text>
+    <text class="field" x="24" y="156">name, degree, duration</text>
+    <text class="field" x="24" y="188">annualFee, seats</text>
+    <text class="fieldMuted" x="24" y="220">exam, closingRank</text>
   </g>
 
-  <g transform="translate(1040,880)">
-    <rect class="entity" width="390" height="190"/>
-    <rect class="entityHead" width="390" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">Review</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="fk" x="22" y="124">collegeId FK</text>
-    <text class="field" x="22" y="156">author, rating, title</text>
-    <text class="field" x="22" y="188">body, createdAt</text>
+  <g transform="translate(670,615)">
+    <rect class="table" width="410" height="230"/>
+    <rect class="head3" width="410" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">SavedCollege</text>
+    <text class="field" x="24" y="92">id</text>
+    <text class="field" x="24" y="124">userId</text>
+    <text class="field" x="24" y="156">collegeId</text>
+    <text class="field" x="24" y="188">createdAt</text>
+    <text class="fieldMuted" x="24" y="218">one user + one college only once</text>
   </g>
 
-  <g transform="translate(500,430)">
-    <rect class="entity" width="340" height="210"/>
-    <rect class="entityHead" width="340" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">SavedCollege</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="fk" x="22" y="124">userId FK</text>
-    <text class="fk" x="22" y="156">collegeId FK</text>
-    <text class="field" x="22" y="188">createdAt</text>
-    <text class="field" x="22" y="220">unique(userId, collegeId)</text>
+  <g transform="translate(1245,615)">
+    <rect class="table" width="360" height="230"/>
+    <rect class="head3" width="360" height="58" rx="14"/>
+    <text class="tableTitle" x="24" y="38">Review</text>
+    <text class="field" x="24" y="92">id</text>
+    <text class="field" x="24" y="124">collegeId</text>
+    <text class="field" x="24" y="156">userId</text>
+    <text class="field" x="24" y="188">rating, title, body</text>
+    <text class="fieldMuted" x="24" y="218">author, createdAt</text>
   </g>
 
-  <g transform="translate(70,680)">
-    <rect class="entity" width="370" height="260"/>
-    <rect class="entityHead" width="370" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">DiscussionQuestion</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="field" x="22" y="124">title, body, tags[]</text>
-    <text class="fk" x="22" y="156">userId FK</text>
-    <text class="fk" x="22" y="188">collegeId FK optional</text>
-    <text class="field" x="22" y="220">createdAt</text>
-    <text class="field" x="22" y="252">updatedAt</text>
-  </g>
+  <path class="line" d="M440 300 C500 300 575 300 670 300"/>
+  <rect class="labelBox" x="505" y="270" width="120" height="34"/>
+  <text class="label" x="522" y="293">writes reviews</text>
 
-  <g transform="translate(500,760)">
-    <rect class="entity" width="340" height="205"/>
-    <rect class="entityHead" width="340" height="58" rx="16"/>
-    <text class="entityTitle" x="22" y="38">DiscussionAnswer</text>
-    <text class="pk" x="22" y="92">id PK</text>
-    <text class="field" x="22" y="124">body</text>
-    <text class="fk" x="22" y="156">questionId FK</text>
-    <text class="fk" x="22" y="188">userId FK</text>
-  </g>
+  <path class="line" d="M440 655 C520 655 575 705 670 725"/>
+  <rect class="labelBox" x="495" y="660" width="135" height="34"/>
+  <text class="label" x="512" y="683">saves colleges</text>
 
-  <path class="rel" d="M380 245 C430 245 450 245 500 245"/>
-  <text class="relLabel" x="412" y="225">1 user has many sessions</text>
+  <path class="line2" d="M260 425 L260 545"/>
+  <rect class="labelBox" x="282" y="475" width="135" height="34"/>
+  <text class="label" x="298" y="498">has sessions</text>
 
-  <path class="rel" d="M380 300 C440 360 460 470 500 520"/>
-  <text class="relLabel" x="300" y="480">user saves colleges</text>
+  <path class="line2" d="M1080 300 C1145 300 1180 300 1245 300"/>
+  <rect class="labelBox" x="1115" y="270" width="115" height="34"/>
+  <text class="label" x="1134" y="293">has courses</text>
 
-  <path class="rel" d="M840 535 C920 520 960 440 1040 335"/>
-  <text class="relLabel" x="850" y="500">saved college points to college</text>
+  <path class="line" d="M875 480 L875 615"/>
+  <rect class="labelBox" x="900" y="538" width="132" height="34"/>
+  <text class="label" x="916" y="561">can be saved</text>
 
-  <path class="rel" d="M1235 500 L1235 570"/>
-  <text class="relLabel" x="1260" y="540">college has courses</text>
+  <path class="line" d="M1080 730 C1140 730 1180 730 1245 730"/>
+  <rect class="labelBox" x="1120" y="700" width="116" height="34"/>
+  <text class="label" x="1140" y="723">has reviews</text>
 
-  <path class="rel" d="M1235 500 C1290 640 1290 780 1235 880"/>
-  <text class="relLabel" x="1300" y="770">college has reviews</text>
-
-  <path class="rel" d="M250 405 C230 520 230 590 255 680"/>
-  <text class="relLabel" x="95" y="565">user asks questions</text>
-
-  <path class="rel" d="M440 810 L500 850"/>
-  <text class="relLabel" x="440" y="795">question has answers</text>
-
-  <path class="rel" d="M670 760 C620 650 470 440 350 385"/>
-  <text class="relLabel" x="520" y="705">answer belongs to user</text>
-
-  <path class="rel" d="M440 770 C670 620 820 410 1040 330"/>
-  <text class="relLabel" x="560" y="620">question may relate to college</text>
-
-  <g transform="translate(70,990)">
-    <rect class="note" width="760" height="70"/>
-    <text class="noteText" x="24" y="43">PK = Primary key. FK = Foreign key. Prisma uses these relations to query connected data.</text>
+  <g transform="translate(80,915)">
+    <rect class="note" width="1525" height="72"/>
+    <text class="noteText" x="24" y="44">Read the arrows like this: one user has sessions, one college has courses, users save colleges through SavedCollege, and users review colleges through Review.</text>
   </g>
 </svg>

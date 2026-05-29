@@ -46,17 +46,6 @@ export const predictorSchema = z.object({
   maxFees: z.coerce.number().int().positive().optional()
 });
 
-export const createQuestionSchema = z.object({
-  title: z.string().trim().min(8).max(140),
-  body: z.string().trim().min(12).max(1200),
-  collegeId: z.string().trim().optional(),
-  tags: z.array(z.string().trim().min(2).max(30)).max(5).optional().default([])
-});
-
-export const createAnswerSchema = z.object({
-  body: z.string().trim().min(6).max(1200)
-});
-
 export const createReviewSchema = z.object({
   title: z.string().trim().min(4, "Review title must be at least 4 characters").max(100),
   body: z.string().trim().min(12, "Review must be at least 12 characters").max(1200),

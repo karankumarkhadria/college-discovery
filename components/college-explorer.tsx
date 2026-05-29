@@ -35,7 +35,7 @@ export function CollegeExplorer() {
         params.set(key, String(value));
       }
     });
-    params.set("pageSize", "9");
+    params.set("pageSize", filters.q ? "24" : "9");
     return params.toString();
   }, [filters]);
 
@@ -105,7 +105,7 @@ export function CollegeExplorer() {
   return (
     <div className="section-shell py-8">
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-        <aside className="h-fit rounded-lg border border-line bg-white p-4 shadow-sm lg:sticky lg:top-24">
+        <aside className="h-fit min-w-0 rounded-lg border border-line bg-white p-4 shadow-sm lg:sticky lg:top-24">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold uppercase text-brand-700">
@@ -118,19 +118,16 @@ export function CollegeExplorer() {
 
           <div className="space-y-4">
             <label className="block text-sm font-medium text-ink">
-              Search
-              <div className="relative mt-1">
-                <Search
-                  className="pointer-events-none absolute left-3 top-2.5 text-muted"
-                  size={17}
-                />
-                <input
-                  className="form-field pl-9"
-                  placeholder="College, city, program"
-                  value={filters.q}
-                  onChange={(event) => updateFilter("q", event.target.value)}
-                />
-              </div>
+              <span className="flex items-center gap-2">
+                <Search className="text-muted" size={16} />
+                Search
+              </span>
+              <input
+                className="form-field mt-1 min-w-0"
+                placeholder="College, city, program"
+                value={filters.q}
+                onChange={(event) => updateFilter("q", event.target.value)}
+              />
             </label>
 
             <SelectField

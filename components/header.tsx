@@ -9,7 +9,6 @@ const navItems = [
   { href: "/", label: "Search" },
   { href: "/compare", label: "Compare" },
   { href: "/predictor", label: "Predictor" },
-  { href: "/discussions", label: "Q&A" },
   { href: "/saved", label: "Saved" }
 ];
 

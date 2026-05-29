@@ -12,9 +12,23 @@ type PredictorResponse = {
   exam: string;
   rank: number;
   usedFallback: boolean;
+  summary: {
+    counts: {
+      Safe: number;
+      Target: number;
+      Reach: number;
+    };
+    bestFit: string | null;
+    strongestPlacement: string | null;
+    bestPackage: string | null;
+    bestRoi: string | null;
+  };
   recommendations: {
     bucket: "Reach" | "Target" | "Safe";
     confidence: number;
+    rankGap: number;
+    roiScore: number;
+    reasons: string[];
     course: {
       id: string;
       name: string;
@@ -190,6 +204,15 @@ export function PredictorTool() {
               {loading ? <Loader2 className="animate-spin" size={17} /> : <SearchCheck size={17} />}
               Predict colleges
             </button>
+
+            <div className="rounded-lg border border-line bg-surface p-3 text-sm leading-6 text-muted">
+              <p className="font-semibold text-ink">Scoring rule</p>
+              <p>
+                If your rank is better than the closing rank, the course is
+                eligible. A larger buffer becomes Safe, a medium buffer becomes
+                Target, and a very close cutoff becomes Reach.
+              </p>
+            </div>
           </div>
         </form>
 
@@ -214,8 +237,10 @@ export function PredictorTool() {
           ) : null}
 
           {result ? (
-            <div className="grid gap-4 md:grid-cols-2">
-              {result.recommendations.map((item) => (
+            <div className="space-y-4">
+              <PredictorSummary result={result} />
+              <div className="grid gap-4 md:grid-cols-2">
+                {result.recommendations.map((item) => (
                 <article
                   key={`${item.college.id}-${item.course.id}`}
                   className="overflow-hidden rounded-lg border border-line bg-white shadow-sm"
@@ -258,6 +283,20 @@ export function PredictorTool() {
                       <p className="mt-1 text-sm text-muted">
                         Closing rank {item.course.closingRank.toLocaleString("en-IN")} via {item.course.exam}
                       </p>
+                      <p className="mt-2 text-xs font-semibold text-brand-700">
+                        {rankMessage(result.rank, item.course.closingRank)}
+                      </p>
+                    </div>
+
+                    <div className="rounded-lg border border-line p-3">
+                      <p className="text-xs font-semibold uppercase text-muted">
+                        Why this match
+                      </p>
+                      <ul className="mt-2 space-y-1 text-sm leading-5 text-muted">
+                        {item.reasons.map((reason) => (
+                          <li key={reason}>- {reason}</li>
+                        ))}
+                      </ul>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 text-sm">
@@ -273,14 +312,69 @@ export function PredictorTool() {
                         label="Placement"
                         value={`${item.college.placementRate}%`}
                       />
+                      <SmallMetric
+                        label="ROI"
+                        value={`${item.roiScore}x`}
+                      />
                     </div>
                   </div>
                 </article>
-              ))}
+                ))}
+              </div>
             </div>
           ) : null}
         </section>
       </div>
+    </div>
+  );
+}
+
+function PredictorSummary({ result }: { result: PredictorResponse }) {
+  return (
+    <div className="rounded-lg border border-line bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase text-brand-700">
+            Prediction summary
+          </p>
+          <h2 className="text-xl font-bold text-ink">
+            {result.summary.bestFit
+              ? `Best first match: ${result.summary.bestFit}`
+              : "No recommendations found"}
+          </h2>
+        </div>
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <BucketCount label="Safe" value={result.summary.counts.Safe} />
+          <BucketCount label="Target" value={result.summary.counts.Target} />
+          <BucketCount label="Reach" value={result.summary.counts.Reach} />
+        </div>
+      </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-3">
+        <SummaryFact label="Best package" value={result.summary.bestPackage ?? "-"} />
+        <SummaryFact
+          label="Strongest placement"
+          value={result.summary.strongestPlacement ?? "-"}
+        />
+        <SummaryFact label="Best ROI" value={result.summary.bestRoi ?? "-"} />
+      </div>
+    </div>
+  );
+}
+
+function BucketCount({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-lg border border-line bg-surface px-4 py-2">
+      <p className="text-lg font-bold text-ink">{value}</p>
+      <p className="text-xs font-semibold uppercase text-muted">{label}</p>
+    </div>
+  );
+}
+
+function SummaryFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-line bg-surface p-3">
+      <p className="text-xs font-semibold uppercase text-muted">{label}</p>
+      <p className="mt-1 line-clamp-2 text-sm font-bold text-ink">{value}</p>
     </div>
   );
 }
@@ -304,4 +398,16 @@ function bucketClass(bucket: "Reach" | "Target" | "Safe") {
   }
 
   return "bg-warn-100 text-warn-600";
+}
+
+function rankMessage(rank: number, closingRank: number) {
+  if (rank <= closingRank) {
+    return `Your rank is ${(
+      closingRank - rank
+    ).toLocaleString("en-IN")} ranks inside the cutoff.`;
+  }
+
+  return `Your rank is ${(
+    rank - closingRank
+  ).toLocaleString("en-IN")} ranks outside the cutoff.`;
 }

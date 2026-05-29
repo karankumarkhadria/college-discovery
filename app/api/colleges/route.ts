@@ -17,7 +17,23 @@ export async function GET(request: Request) {
         { name: { contains: filters.q, mode: "insensitive" } },
         { city: { contains: filters.q, mode: "insensitive" } },
         { state: { contains: filters.q, mode: "insensitive" } },
-        { overview: { contains: filters.q, mode: "insensitive" } }
+        { type: { contains: filters.q, mode: "insensitive" } },
+        { accreditation: { contains: filters.q, mode: "insensitive" } },
+        { overview: { contains: filters.q, mode: "insensitive" } },
+        { tags: { has: filters.q.toUpperCase() } },
+        { tags: { has: filters.q } },
+        { examsAccepted: { has: filters.q } },
+        {
+          courses: {
+            some: {
+              OR: [
+                { name: { contains: filters.q, mode: "insensitive" } },
+                { degree: { contains: filters.q, mode: "insensitive" } },
+                { exam: { contains: filters.q, mode: "insensitive" } }
+              ]
+            }
+          }
+        }
       ];
     }
 

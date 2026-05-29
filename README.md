@@ -15,7 +15,6 @@ Full-stack internship assignment for **Role 3: Full Stack Engineer** and **Track
 - College detail pages with overview, courses, placements, and reviews
 - Compare 2-3 colleges side by side
 - Predictor tool based on exam and rank
-- Q&A discussions with answers
 - Authentication, saved colleges, and user-scoped saved data
 
 ## Local Setup
@@ -48,7 +47,7 @@ The project uses a single Next.js codebase because it keeps deployment simple wh
 - `lib/*` contains shared backend utilities, validation, Prisma, auth, and formatting helpers.
 - `components/*` contains reusable frontend UI and feature components.
 - `prisma/schema.prisma` defines the database model.
-- `prisma/seed.ts` creates realistic demo data for search, comparison, predictor, reviews, and discussions.
+- `prisma/seed.ts` creates realistic demo data for search, comparison, predictor, reviews, and saved colleges.
 
 The backend is intentionally API-driven. Frontend pages call API routes instead of reading hardcoded data, so the product behaves like a real full-stack application.
 

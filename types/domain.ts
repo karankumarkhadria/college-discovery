@@ -71,34 +71,3 @@ export type CollegeListResponse = {
     courses: string[];
   };
 };
-
-export type DiscussionQuestion = {
-  id: string;
-  title: string;
-  body: string;
-  tags: string[];
-  createdAt: string;
-  user: {
-    id: string;
-    name: string;
-  };
-  college?: {
-    id: string;
-    slug: string;
-    name: string;
-    city?: string;
-    state?: string;
-  } | null;
-  answers: {
-    id: string;
-    body: string;
-    createdAt: string;
-    user: {
-      id: string;
-      name: string;
-    };
-  }[];
-  _count: {
-    answers: number;
-  };
-};

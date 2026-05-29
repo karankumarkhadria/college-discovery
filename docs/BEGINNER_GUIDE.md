@@ -45,8 +45,8 @@ That is also valid, but harder to deploy and explain for this assignment.
 | TailwindCSS | Styling | Fast, consistent UI styling |
 | Node.js | Runtime | Runs Next.js backend/API code |
 | Prisma | Database ORM | Lets code talk to PostgreSQL safely |
-| PostgreSQL | Database | Stores users, colleges, courses, reviews, saved items, discussions |
-| Zod | Validation | Rejects bad signup/question/review/API input |
+| PostgreSQL | Database | Stores users, colleges, courses, reviews, and saved items |
+| Zod | Validation | Rejects bad signup, review, and API input |
 | bcryptjs | Password hashing | Stores password hashes instead of real passwords |
 | lucide-react | Icons | Search, save, user, send icons |
 
@@ -65,8 +65,6 @@ In this project, PostgreSQL stores:
 - courses
 - reviews
 - saved colleges
-- questions
-- answers
 
 The data is not stored in React files. React only displays data. Real data lives in PostgreSQL.
 
@@ -110,7 +108,6 @@ That file creates:
 - demo colleges
 - demo courses
 - demo reviews
-- demo discussions
 - demo saved colleges
 
 Seed data is useful because a new database starts empty. Without seeding, the app would show no colleges.
@@ -178,9 +175,6 @@ The backend intentionally rejects invalid input.
 Examples:
 
 - signup password must be at least 8 characters
-- question title must be at least 8 characters
-- question body must be at least 12 characters
-- answer must be at least 6 characters
 - review body must be at least 12 characters
 
 Earlier the UI only showed "Validation failed". That was confusing. It now shows the real field error.
@@ -228,5 +222,4 @@ This is still simplified. A real predictor would need category, gender pool, quo
 | `app/api/auth/signup/route.ts` | Signup API |
 | `components/college-explorer.tsx` | Search page UI |
 | `components/college-detail.tsx` | Detail page and review form |
-| `components/discussion-board.tsx` | Q&A UI |
 | `components/predictor-tool.tsx` | Predictor UI |

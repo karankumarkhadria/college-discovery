@@ -5,20 +5,20 @@
 - Role: Full Stack Engineer
 - Track: College Discovery Platform
 
-The app implements all six available Track B features:
+The app focuses on five core Track B features:
 
 - College listing and search
 - College detail page
 - Compare colleges
 - Predictor tool
-- Q&A discussion system
+- College reviews
 - Authentication and saved colleges
 
 ## Why This Tech Stack
 
 The assignment recommends Next.js, React, TypeScript, TailwindCSS, Node.js, Prisma, and PostgreSQL. I used that stack directly because it gives a modern full-stack architecture without splitting the project into multiple deployable services.
 
-Next.js is useful here because it supports both frontend routes and backend API routes in one codebase. That keeps the live URL simple for reviewers while still allowing real backend APIs. React and TypeScript make the UI component-driven and safer to refactor. TailwindCSS keeps styling fast and consistent without a heavy component library. Prisma gives a clear schema, typed database access, and straightforward migrations. PostgreSQL is a reliable relational database for search filters, comparisons, user-saved data, and discussion relationships.
+Next.js is useful here because it supports both frontend routes and backend API routes in one codebase. That keeps the live URL simple for reviewers while still allowing real backend APIs. React and TypeScript make the UI component-driven and safer to refactor. TailwindCSS keeps styling fast and consistent without a heavy component library. Prisma gives a clear schema, typed database access, and straightforward migrations. PostgreSQL is a reliable relational database for search filters, comparisons, reviews, and user-saved data.
 
 ## High-Level Structure
 
@@ -28,7 +28,6 @@ app/
   colleges/[slug]/     College detail page
   compare/             Comparison workflow
   predictor/           Rank-based recommendation tool
-  discussions/         Q&A board
   saved/               User saved colleges
 components/            Reusable client UI components
 lib/                   Prisma, auth, validation, API helpers
@@ -44,8 +43,7 @@ The backend is built with Next.js API routes. Each feature has its own route gro
 - `GET /api/colleges/[slug]` returns one detailed college profile.
 - `GET /api/compare?ids=a,b,c` returns normalized comparison data for 2-3 colleges.
 - `POST /api/predictor` matches exam and rank against course closing ranks.
-- `GET/POST /api/discussions` supports browsing and asking questions.
-- `POST /api/discussions/[id]/answers` supports answers.
+- `POST /api/colleges/[slug]/reviews` lets logged-in users add college reviews.
 - `GET /api/saved-colleges` returns user-scoped saved colleges.
 - `POST/DELETE /api/saved-colleges/[collegeId]` saves or removes a college.
 - `GET /api/health` verifies the database connection.
@@ -62,8 +60,6 @@ Main tables:
 - `Course`: course-specific fees, exam, and closing rank
 - `Review`: college reviews
 - `SavedCollege`: many-to-many user shortlist table
-- `DiscussionQuestion`: Q&A questions
-- `DiscussionAnswer`: answers linked to questions
 
 Courses are separate from colleges because admissions logic depends on course-level fields like exam and closing rank. Saved colleges are a separate join table so each user has isolated shortlist data.
 
@@ -76,7 +72,7 @@ Why this approach:
 - Passwords are never stored in plain text.
 - Session tokens are not readable by client-side JavaScript.
 - If the database leaks, raw session tokens are not exposed.
-- Saved colleges and Q&A posting can be scoped to the logged-in user.
+- Saved colleges and review posting can be scoped to the logged-in user.
 
 ## Frontend Design
 
@@ -87,7 +83,6 @@ The frontend is component-driven:
 - `CollegeDetail` renders overview, courses, placements, and reviews.
 - `CompareWorkspace` manages 2-3 college comparison state.
 - `PredictorTool` handles rank input and recommendation results.
-- `DiscussionBoard` handles Q&A browsing, posting, and answering.
 - `SavedColleges` renders the user's shortlist.
 - `AuthProvider` shares user/session state across the app.
 

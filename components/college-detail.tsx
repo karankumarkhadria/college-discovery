@@ -255,12 +255,9 @@ export function CollegeDetail({ slug }: { slug: string }) {
           <section className="rounded-lg border border-line bg-white p-5 shadow-sm">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-xl font-bold text-ink">Reviews</h2>
-              <Link
-                className="text-sm font-semibold text-brand-700 hover:text-brand-600"
-                href={`/discussions?collegeSlug=${college.slug}`}
-              >
-                Open Q&A
-              </Link>
+              <span className="text-sm font-semibold text-brand-700">
+                Student feedback
+              </span>
             </div>
             <form
               className="mt-4 rounded-lg border border-line bg-surface p-4"

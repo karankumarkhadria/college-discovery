@@ -16,8 +16,6 @@ model User {
   updatedAt    DateTime       @updatedAt
   sessions     Session[]
   savedColleges SavedCollege[]
-  questions    DiscussionQuestion[]
-  answers      DiscussionAnswer[]
 }
 
 model Session {
@@ -60,7 +58,6 @@ model College {
   courses            Course[]
   reviews            Review[]
   savedBy            SavedCollege[]
-  discussionQuestions DiscussionQuestion[]
 
   @@index([state])
   @@index([city])
@@ -107,35 +104,4 @@ model SavedCollege {
 
   @@unique([userId, collegeId])
   @@index([collegeId])
-}
-
-model DiscussionQuestion {
-  id        String             @id @default(cuid())
-  title     String
-  body      String
-  tags      String[]
-  collegeId String?
-  userId    String
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-  college   College?           @relation(fields: [collegeId], references: [id], onDelete: SetNull)
-  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  answers   DiscussionAnswer[]
-
-  @@index([collegeId])
-  @@index([userId])
-  @@index([createdAt])
-}
-
-model DiscussionAnswer {
-  id         String             @id @default(cuid())
-  body       String
-  questionId String
-  userId     String
-  createdAt  DateTime           @default(now())
-  question   DiscussionQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([questionId])
-  @@index([userId])
 }

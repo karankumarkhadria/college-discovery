@@ -192,8 +192,11 @@ export function CompareWorkspace() {
           ) : null}
 
           {!loadingCompare && colleges.length >= 2 ? (
-            <div className="overflow-hidden rounded-lg border border-line bg-white shadow-sm">
-              <div className="grid border-b border-line bg-surface" style={{ gridTemplateColumns: `180px repeat(${colleges.length}, minmax(220px, 1fr))` }}>
+            <div className="space-y-4">
+              <DecisionSummary colleges={colleges} />
+
+              <div className="overflow-hidden rounded-lg border border-line bg-white shadow-sm">
+                <div className="grid border-b border-line bg-surface" style={{ gridTemplateColumns: `180px repeat(${colleges.length}, minmax(220px, 1fr))` }}>
                 <div className="p-4 text-sm font-semibold text-muted">Metric</div>
                 {colleges.map((college) => (
                   <div key={college.id} className="border-l border-line p-4">
@@ -208,56 +211,57 @@ export function CompareWorkspace() {
                     </p>
                   </div>
                 ))}
-              </div>
+                </div>
 
-              <div className="overflow-x-auto">
-                <div className="min-w-[760px]">
-                  <CompareRow
-                    colleges={colleges}
-                    label="Fees"
-                    render={(college) =>
-                      `${formatCompactCurrency(college.feeMin)} - ${formatCompactCurrency(college.feeMax)}`
-                    }
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Average package"
-                    render={(college) => formatPackage(college.averagePackage)}
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Highest package"
-                    render={(college) => formatPackage(college.highestPackage)}
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Placement rate"
-                    render={(college) => `${college.placementRate}%`}
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Rating"
-                    render={(college) => `${college.rating}/5 (${college.reviewCount} reviews)`}
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Accepted exams"
-                    render={(college) => college.examsAccepted.join(", ")}
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Top courses"
-                    render={(college) =>
-                      college.courses
-                        .map((course) => `${course.degree} ${course.name}`)
-                        .join(", ")
-                    }
-                  />
-                  <CompareRow
-                    colleges={colleges}
-                    label="Top recruiters"
-                    render={(college) => college.topRecruiters.join(", ")}
-                  />
+                <div className="overflow-x-auto">
+                  <div className="min-w-[760px]">
+                    <CompareRow
+                      colleges={colleges}
+                      label="Fees"
+                      render={(college) =>
+                        `${formatCompactCurrency(college.feeMin)} - ${formatCompactCurrency(college.feeMax)}`
+                      }
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Average package"
+                      render={(college) => formatPackage(college.averagePackage)}
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Highest package"
+                      render={(college) => formatPackage(college.highestPackage)}
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Placement rate"
+                      render={(college) => `${college.placementRate}%`}
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Rating"
+                      render={(college) => `${college.rating}/5 (${college.reviewCount} reviews)`}
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Accepted exams"
+                      render={(college) => college.examsAccepted.join(", ")}
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Top courses"
+                      render={(college) =>
+                        college.courses
+                          .map((course) => `${course.degree} ${course.name}`)
+                          .join(", ")
+                      }
+                    />
+                    <CompareRow
+                      colleges={colleges}
+                      label="Top recruiters"
+                      render={(college) => college.topRecruiters.join(", ")}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -265,6 +269,84 @@ export function CompareWorkspace() {
         </section>
       </div>
     </div>
+  );
+}
+
+function DecisionSummary({ colleges }: { colleges: CollegeCardData[] }) {
+  const bestPackage = maxBy(colleges, (college) => college.averagePackage);
+  const bestPlacement = maxBy(colleges, (college) => college.placementRate);
+  const bestRating = maxBy(colleges, (college) => college.rating);
+  const lowestFees = minBy(colleges, (college) => college.feeMin);
+
+  return (
+    <div className="rounded-lg border border-line bg-white p-4 shadow-sm">
+      <div className="mb-3">
+        <p className="text-xs font-semibold uppercase text-brand-700">
+          Decision summary
+        </p>
+        <h2 className="text-xl font-bold text-ink">
+          Quick winners across key metrics
+        </h2>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <SummaryTile
+          label="Best avg package"
+          name={bestPackage.name}
+          value={formatPackage(bestPackage.averagePackage)}
+        />
+        <SummaryTile
+          label="Best placement rate"
+          name={bestPlacement.name}
+          value={`${bestPlacement.placementRate}%`}
+        />
+        <SummaryTile
+          label="Highest rating"
+          name={bestRating.name}
+          value={`${bestRating.rating}/5`}
+        />
+        <SummaryTile
+          label="Lowest fees"
+          name={lowestFees.name}
+          value={`${formatCompactCurrency(lowestFees.feeMin)}+`}
+        />
+      </div>
+    </div>
+  );
+}
+
+function SummaryTile({
+  label,
+  name,
+  value
+}: {
+  label: string;
+  name: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-lg border border-line bg-surface p-3">
+      <p className="text-xs font-semibold uppercase text-muted">{label}</p>
+      <p className="mt-1 text-lg font-bold text-ink">{value}</p>
+      <p className="mt-1 line-clamp-2 text-sm text-muted">{name}</p>
+    </div>
+  );
+}
+
+function maxBy(
+  colleges: CollegeCardData[],
+  selector: (college: CollegeCardData) => number
+) {
+  return colleges.reduce((best, college) =>
+    selector(college) > selector(best) ? college : best
+  );
+}
+
+function minBy(
+  colleges: CollegeCardData[],
+  selector: (college: CollegeCardData) => number
+) {
+  return colleges.reduce((best, college) =>
+    selector(college) < selector(best) ? college : best
   );
 }
 
