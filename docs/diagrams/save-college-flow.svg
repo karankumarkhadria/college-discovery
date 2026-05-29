@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="860" viewBox="0 0 1500 860">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 42px Arial, Helvetica, sans-serif; fill: #1c2430; }
+      .subtitle { font: 500 20px Arial, Helvetica, sans-serif; fill: #687385; }
+      .actor { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 18; }
+      .actorHead { fill: #0f6070; }
+      .actorTitle { font: 800 22px Arial, Helvetica, sans-serif; fill: #ffffff; }
+      .text { font: 500 17px Arial, Helvetica, sans-serif; fill: #1c2430; }
+      .small { font: 500 15px Arial, Helvetica, sans-serif; fill: #687385; }
+      .line { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: 8 8; }
+      .msg { stroke: #1c2430; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .return { stroke: #16a34a; stroke-width: 3; fill: none; marker-end: url(#greenArrow); stroke-dasharray: 9 7; }
+      .label { font: 800 16px Arial, Helvetica, sans-serif; fill: #1c2430; }
+      .note { fill: #ecfeff; stroke: #67e8f9; stroke-width: 2; rx: 14; }
+      .noteText { font: 600 17px Arial, Helvetica, sans-serif; fill: #164e63; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1c2430"/>
+    </marker>
+    <marker id="greenArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1500" height="860"/>
+  <text class="title" x="70" y="70">Example Flow: Saving A College</text>
+  <text class="subtitle" x="70" y="105">What happens after a logged-in user clicks the Save button</text>
+
+  <g transform="translate(70,165)">
+    <rect class="actor" width="210" height="95"/>
+    <rect class="actorHead" width="210" height="52" rx="18"/>
+    <text class="actorTitle" x="24" y="34">User</text>
+    <text class="text" x="24" y="78">Clicks Save</text>
+  </g>
+
+  <g transform="translate(390,165)">
+    <rect class="actor" width="240" height="95"/>
+    <rect class="actorHead" width="240" height="52" rx="18"/>
+    <text class="actorTitle" x="24" y="34">React UI</text>
+    <text class="text" x="24" y="78">SaveCollegeButton</text>
+  </g>
+
+  <g transform="translate(740,165)">
+    <rect class="actor" width="290" height="95"/>
+    <rect class="actorHead" width="290" height="52" rx="18"/>
+    <text class="actorTitle" x="24" y="34">API Route</text>
+    <text class="text" x="24" y="78">/api/saved-colleges/:id</text>
+  </g>
+
+  <g transform="translate(1135,165)">
+    <rect class="actor" width="275" height="95"/>
+    <rect class="actorHead" width="275" height="52" rx="18"/>
+    <text class="actorTitle" x="24" y="34">PostgreSQL</text>
+    <text class="text" x="24" y="78">SavedCollege table</text>
+  </g>
+
+  <line class="line" x1="175" y1="260" x2="175" y2="740"/>
+  <line class="line" x1="510" y1="260" x2="510" y2="740"/>
+  <line class="line" x1="885" y1="260" x2="885" y2="740"/>
+  <line class="line" x1="1272" y1="260" x2="1272" y2="740"/>
+
+  <path class="msg" d="M175 315 L510 315"/>
+  <text class="label" x="250" y="300">1. User clicks Save</text>
+
+  <path class="msg" d="M510 395 L885 395"/>
+  <text class="label" x="565" y="380">2. POST /api/saved-colleges/[collegeId]</text>
+  <text class="small" x="565" y="420">Browser sends cookie automatically</text>
+
+  <path class="msg" d="M885 475 L1272 475"/>
+  <text class="label" x="940" y="460">3. API checks session and upserts row</text>
+  <text class="small" x="940" y="500">userId + collegeId must be unique</text>
+
+  <path class="return" d="M1272 555 L885 555"/>
+  <text class="label" x="970" y="540">4. Database confirms saved row</text>
+
+  <path class="return" d="M885 635 L510 635"/>
+  <text class="label" x="600" y="620">5. API returns { saved: true }</text>
+
+  <path class="return" d="M510 710 L175 710"/>
+  <text class="label" x="245" y="695">6. UI changes button to Saved</text>
+
+  <g transform="translate(70,770)">
+    <rect class="note" width="760" height="58"/>
+    <text class="noteText" x="22" y="36">If the user is not logged in, the API returns 401 and the UI opens the login modal.</text>
+  </g>
+</svg>

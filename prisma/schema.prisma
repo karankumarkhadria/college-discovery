@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(cuid())
+  name         String
+  email        String         @unique
+  passwordHash String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  sessions     Session[]
+  savedColleges SavedCollege[]
+  questions    DiscussionQuestion[]
+  answers      DiscussionAnswer[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model College {
+  id                 String               @id @default(cuid())
+  slug               String               @unique
+  name               String
+  type               String
+  city               String
+  state              String
+  country            String               @default("India")
+  establishedYear    Int
+  accreditation      String
+  overview           String
+  website            String
+  imageUrl           String
+  feeMin             Int
+  feeMax             Int
+  rating             Float
+  reviewCount        Int
+  placementRate      Float
+  averagePackage     Float
+  highestPackage     Float
+  topRecruiters      String[]
+  examsAccepted      String[]
+  tags               String[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  courses            Course[]
+  reviews            Review[]
+  savedBy            SavedCollege[]
+  discussionQuestions DiscussionQuestion[]
+
+  @@index([state])
+  @@index([city])
+  @@index([rating])
+  @@index([feeMin])
+}
+
+model Course {
+  id          String  @id @default(cuid())
+  collegeId   String
+  name        String
+  degree      String
+  duration    String
+  annualFee   Int
+  seats       Int
+  exam        String
+  closingRank Int
+  college     College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+  @@index([exam, closingRank])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  collegeId String
+  author    String
+  rating    Int
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+}
+
+model SavedCollege {
+  id        String   @id @default(cuid())
+  userId    String
+  collegeId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, collegeId])
+  @@index([collegeId])
+}
+
+model DiscussionQuestion {
+  id        String             @id @default(cuid())
+  title     String
+  body      String
+  tags      String[]
+  collegeId String?
+  userId    String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  college   College?           @relation(fields: [collegeId], references: [id], onDelete: SetNull)
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers   DiscussionAnswer[]
+
+  @@index([collegeId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model DiscussionAnswer {
+  id         String             @id @default(cuid())
+  body       String
+  questionId String
+  userId     String
+  createdAt  DateTime           @default(now())
+  question   DiscussionQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@index([userId])
+}

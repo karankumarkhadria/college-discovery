@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 800 42px Arial, Helvetica, sans-serif; fill: #1c2430; }
+      .subtitle { font: 500 20px Arial, Helvetica, sans-serif; fill: #687385; }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; rx: 18; }
+      .head { fill: #0f6070; rx: 18; }
+      .head2 { fill: #166534; rx: 18; }
+      .head3 { fill: #1c2430; rx: 18; }
+      .boxTitle { font: 800 24px Arial, Helvetica, sans-serif; fill: #ffffff; }
+      .boxText { font: 500 18px Arial, Helvetica, sans-serif; fill: #1c2430; }
+      .small { font: 500 16px Arial, Helvetica, sans-serif; fill: #687385; }
+      .arrow { stroke: #334155; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+      .label { font: 800 16px Arial, Helvetica, sans-serif; fill: #334155; }
+      .response { stroke: #16a34a; stroke-width: 4; fill: none; marker-end: url(#greenArrow); stroke-dasharray: 10 8; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="greenArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1500" height="760"/>
+  <text class="title" x="70" y="70">Data Flow In The App</text>
+  <text class="subtitle" x="70" y="105">How data moves from UI to backend to PostgreSQL and back</text>
+
+  <g transform="translate(70,205)">
+    <rect class="box" width="250" height="170"/>
+    <rect class="head" width="250" height="62" rx="18"/>
+    <text class="boxTitle" x="24" y="40">React UI</text>
+    <text class="boxText" x="24" y="100">User searches,</text>
+    <text class="boxText" x="24" y="130">saves, logs in,</text>
+    <text class="boxText" x="24" y="160">posts Q&amp;A</text>
+  </g>
+
+  <g transform="translate(430,205)">
+    <rect class="box" width="250" height="170"/>
+    <rect class="head3" width="250" height="62" rx="18"/>
+    <text class="boxTitle" x="24" y="40">API Route</text>
+    <text class="boxText" x="24" y="100">Next.js receives</text>
+    <text class="boxText" x="24" y="130">HTTP request</text>
+    <text class="small" x="24" y="160">app/api/*</text>
+  </g>
+
+  <g transform="translate(790,205)">
+    <rect class="box" width="250" height="170"/>
+    <rect class="head" width="250" height="62" rx="18"/>
+    <text class="boxTitle" x="24" y="40">Validation/Auth</text>
+    <text class="boxText" x="24" y="100">Zod checks data</text>
+    <text class="boxText" x="24" y="130">Cookie checks user</text>
+    <text class="small" x="24" y="160">lib/validators.ts</text>
+  </g>
+
+  <g transform="translate(1150,205)">
+    <rect class="box" width="250" height="170"/>
+    <rect class="head2" width="250" height="62" rx="18"/>
+    <text class="boxTitle" x="24" y="40">Prisma ORM</text>
+    <text class="boxText" x="24" y="100">Typed database</text>
+    <text class="boxText" x="24" y="130">queries</text>
+    <text class="small" x="24" y="160">lib/prisma.ts</text>
+  </g>
+
+  <g transform="translate(610,510)">
+    <rect class="box" width="310" height="150"/>
+    <rect class="head2" width="310" height="62" rx="18"/>
+    <text class="boxTitle" x="24" y="40">PostgreSQL</text>
+    <text class="boxText" x="24" y="100">Stores real data:</text>
+    <text class="boxText" x="24" y="130">users, colleges, reviews</text>
+  </g>
+
+  <path class="arrow" d="M320 290 L430 290"/>
+  <text class="label" x="340" y="270">fetch()</text>
+
+  <path class="arrow" d="M680 290 L790 290"/>
+  <text class="label" x="700" y="270">request body</text>
+
+  <path class="arrow" d="M1040 290 L1150 290"/>
+  <text class="label" x="1060" y="270">valid data</text>
+
+  <path class="arrow" d="M1275 375 C1275 480 980 585 920 585"/>
+  <text class="label" x="1010" y="525">SQL through Prisma</text>
+
+  <path class="response" d="M610 585 C450 585 260 470 195 375"/>
+  <text class="label" x="330" y="560">JSON response returns to UI</text>
+
+  <g transform="translate(70,455)">
+    <rect class="box" width="390" height="165"/>
+    <text class="boxText" x="24" y="48">Example search:</text>
+    <text class="small" x="24" y="82">GET /api/colleges?q=iit</text>
+    <text class="small" x="24" y="112">API reads College + Course tables</text>
+    <text class="small" x="24" y="142">React renders CollegeCard list</text>
+  </g>
+</svg>
