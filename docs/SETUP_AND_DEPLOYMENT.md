@@ -86,4 +86,25 @@ For Vercel, the build command is:
 npm run build
 ```
 
+For Render, use this build command:
+
+```bash
+npm install && npm run render:build
+```
+
+This runs:
+
+```bash
+prisma db push --accept-data-loss
+next build
+```
+
+The `--accept-data-loss` flag is needed on this project because the Q&A/discussion feature was removed from the final MVP. If an older Render database still has the old `DiscussionQuestion` and `DiscussionAnswer` tables, Prisma will refuse to drop them unless this flag is present.
+
+Only run seed when you intentionally want to reset demo data:
+
+```bash
+npm run db:seed
+```
+
 The project runs `prisma generate` during `postinstall`, and `npm run db:generate` is available if the Prisma client needs to be regenerated manually.
